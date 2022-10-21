@@ -249,6 +249,10 @@ MonoBehaviour:
   - {fileID: 1629429146930249340, guid: 6fa2e44cdc723a44396257006c53c53e, type: 3}
   - {fileID: 2775254213699661584, guid: 15c204e88c11880479b6cdc1bcccdb03, type: 3}
   - {fileID: 368114438569764048, guid: 10ab39c75b8e7084190822f7829b2432, type: 3}
+  - {fileID: 8632110388395631108, guid: 89d253ba8ace51a4f8ba14527c3bafa4, type: 3}
+  speed: 5
+  timerOn: 0
+  timeLeft: 1
 --- !u!4 &1194185558
 Transform:
   m_ObjectHideFlags: 0
