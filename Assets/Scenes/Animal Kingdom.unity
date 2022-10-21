@@ -238,7 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tile: {fileID: 792280173004054934, guid: f2eb614cda1214e41924029cf21025ea, type: 3}
   animal: {fileID: 8632110388395631108, guid: 89d253ba8ace51a4f8ba14527c3bafa4, type: 3}
-  column: 8
+  column: 2
   row: 18
   columnSpace: 1.2
   rowSpace: 1.2

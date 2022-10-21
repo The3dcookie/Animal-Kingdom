@@ -57,39 +57,52 @@ namespace Assets.Scripts
             if (dir.x >= gridManager.columnSpace * (gridManager.row))
             {
                 //Debug.Log("Greater Than X");
-                return new Vector3(dir.x - 1.2f, dir.y);
+                return new Vector3(dir.x - 1.2f * 2, dir.y);
             }
             else if (dir.x <= 0)
             {
-                Debug.Log(dir);
-                return new Vector3(dir.x + 1.2f, dir.y);
+                return new Vector3(dir.x + 1.2f * 2, dir.y);
             }
             else if (dir.y >= gridManager.rowSpace * (gridManager.column) - 1)
             {
                 //Debug.Log("Greater Than Y");
-                return new Vector3(dir.x, dir.y - 1.2f);
+                return new Vector3(dir.x, dir.y - 1.2f * 2);
             }
             else if (dir.y <= 0 - gridManager.columnSpace)
             {
                 //Debug.Log("Less Than Y");
-                return new Vector3(dir.x, dir.y + 1.2f);
+                return new Vector3(dir.x, dir.y + 1.2f * 2);
             }
             return transform.position;
         }
 
-        public Vector3 randMov()
+        public Vector3 randMov(Vector3 pos)
         {
-            int val = /*Random.Range(1, 3)*/1;
+            int val = Random.Range(1, 5);
             if (val == 1)
             {
-                transform.position = new Vector3(transform.position.x + 1.2f, transform.position.y);
+                transform.position = new Vector3(pos.x + 1.2f, pos.y);
+                //transform.Translate(new Vector2(Random.Range(-2, 2) * 1.2f, 0));
+                //transform.position = new Vector2(Random.Range(-2, 2) * 1.2f, 0);
+                return transform.position;
+            }
+            else if (val == 3)
+            {
+                transform.position = new Vector3(pos.x - 1.2f, pos.y);
                 //transform.Translate(new Vector2(Random.Range(-2, 2) * 1.2f, 0));
                 //transform.position = new Vector2(Random.Range(-2, 2) * 1.2f, 0);
                 return transform.position;
             }
             else if (val == 2)
             {
-                transform.position = new Vector3(transform.position.x + 1.2f * 2, transform.position.y);
+                transform.position = new Vector3(pos.x , pos.y + 1.2f);
+                //transform.Translate(new Vector2(0, Random.Range(-2, 2) * 1.2f));
+                //transform.Translate(new Vector2(0, Random.Range(-1, 3) * 1.2f));
+                return transform.position;
+            }
+            else if (val == 4)
+            {
+                transform.position = new Vector3(pos.x, pos.y - 1.2f);
                 //transform.Translate(new Vector2(0, Random.Range(-2, 2) * 1.2f));
                 //transform.Translate(new Vector2(0, Random.Range(-1, 3) * 1.2f));
                 return transform.position;
@@ -105,28 +118,18 @@ namespace Assets.Scripts
             //Correct Outside Boundary
             if (dir.x  >= gridManager.columnSpace * (gridManager.row))
             {
-                //Debug.Log("Greater Than X");
-                dir = transform.position;
-                transform.position = new Vector3 (dir.x - 1.2f,dir.y);
                 return true;
             }
             else if (dir.x <= 0 - gridManager.columnSpace)
             {
-                //Debug.Log("Less Than X");
-                dir.x = transform.position.x;
                 return true;
             }
             else if (dir.y >= gridManager.rowSpace * (gridManager.column) - 1)
             {
-                //Debug.Log("Greater Than Y");
-                dir = transform.position;
-                transform.position = new Vector3(dir.x , dir.y - 1.2f);
                 return true;
             }
             else if (dir.y <= 0 - gridManager.columnSpace)
             {
-                //Debug.Log("Less Than Y");
-                dir.y = transform.position.y;
                 return true;
             }
             return false;
@@ -164,24 +167,11 @@ namespace Assets.Scripts
             Vector3 pos;
             pos = transform.position;
 
-
-            //Debug.Log(randMov());
-
-
-            //Debug.Log("Timer Left" );
-
             if (gridManager.timeLeft <= 0)
             {
 
-
-
-
-
-
-                //if (pos.x + gridManager.columnSpace < gridManager.columnSpace * (gridManager.row - 1))
-                //{
-                //    Debug.Log("Can Move");
-                Vector3 newPos = new Vector3(pos.x + gridManager.columnSpace, pos.y , 0);
+                //Vector3 newPos = new Vector3(pos.x, pos.y + gridManager.columnSpace, 0);
+                Vector3 newPos = randMov(pos);
 
                 if (!BoundaryCheck(newPos))
                 {
@@ -191,53 +181,27 @@ namespace Assets.Scripts
                 }
                 else if (BoundaryCheck(newPos))
                 {
-                    transform.position = new Vector3(pos.x - gridManager.columnSpace, pos.y , 0);
-                    //RandReloc(pos);
+                    //int val = Random.Range(1, 3);
+                    //int val = 1;
+
+                    //if (val == 1)
+                    //{
+                    //    transform.position = new Vector3(1 * gridManager.columnSpace, transform.position.y);
+                    //}
+                    //if (val == 2)
+                    //{
+                    //    transform.position = new Vector3(transform.position.x, transform.position.y + gridManager.rowSpace);
+                    //}
+                    //transform.position = new Vector3(pos.x - gridManager.columnSpace, pos.y , 0);
+
+                    transform.position = RandReloc(newPos);
                 }
 
-                //}
-                //else if (pos.x + gridManager.columnSpace >= gridManager.columnSpace * (gridManager.row - 1))
-                //{
-                //    Debug.Log("Can't Move");
-                //    transform.position = new Vector3(pos.x - 1.2f, pos.y, 0);
-                //}
-                ////}
 
 
             }
 
 
-            //if (outsideBoundary)
-            //{
-            //    //Debug.Log("Outside");
-            //    transform.position = pos;
-
-            //    if (gridManager.timeLeft <= 0)
-            //    {
-            //        //transform.position = new Vector3(gridManager.columnSpace * Random.Range(0, gridManager.row),
-            //        //    gridManager.rowSpace * Random.Range(0, gridManager.column));
-
-
-
-            //        if (gameObject.transform.position.x >= gridManager.columnSpace * (gridManager.row - 1))
-            //        {
-            //            transform.position = new Vector3(pos.x - 1.2f, pos.y, 0);
-            //        }
-            //        if (transform.position.x <= 0)
-            //        {
-            //            transform.position = new Vector3(pos.x + 1.2f, pos.y, 0);
-            //        }
-            //        if (transform.position.y >= gridManager.rowSpace * (gridManager.column - 2))
-            //        {
-            //            transform.position = new Vector3(pos.x, pos.y - 1.2f, 0);
-            //        }
-            //        if (transform.position.y <= 0)
-            //        {
-            //            transform.position = new Vector3(pos.x, pos.y + 1.2f, 0);
-            //        }
-            //    }
-            //    outsideBoundary = false;
-            //}
         }
         #endregion
     }
