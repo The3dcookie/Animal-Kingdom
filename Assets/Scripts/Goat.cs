@@ -48,7 +48,7 @@ namespace Assets.Scripts
 
         private void Start()
         {
-            //StartCoroutine(Wait());
+
         }
 
         private Vector3 RandReloc(Vector3 dir)
@@ -78,7 +78,7 @@ namespace Assets.Scripts
 
         public Vector3 randMov(Vector3 pos)
         {
-            int val = Random.Range(1, 5);
+            int val = Random.Range(1, 6);
             if (val == 1)
             {
                 transform.position = new Vector3(pos.x + 1.2f, pos.y);
@@ -107,11 +107,15 @@ namespace Assets.Scripts
                 //transform.Translate(new Vector2(0, Random.Range(-1, 3) * 1.2f));
                 return transform.position;
             }
+            else if (val == 5)
+            {
+                transform.position = new Vector3(pos.x, pos.y);
+                //transform.Translate(new Vector2(0, Random.Range(-2, 2) * 1.2f));
+                //transform.Translate(new Vector2(0, Random.Range(-1, 3) * 1.2f));
+                return transform.position;
+            }
             return transform.position;
         }
-
-
-
 
         private bool BoundaryCheck(Vector3 dir)
         {
@@ -163,13 +167,11 @@ namespace Assets.Scripts
 
         private void Update()
         {
-
             Vector3 pos;
             pos = transform.position;
 
             if (gridManager.timeLeft <= 0)
             {
-
                 //Vector3 newPos = new Vector3(pos.x, pos.y + gridManager.columnSpace, 0);
                 Vector3 newPos = randMov(pos);
 
@@ -181,27 +183,9 @@ namespace Assets.Scripts
                 }
                 else if (BoundaryCheck(newPos))
                 {
-                    //int val = Random.Range(1, 3);
-                    //int val = 1;
-
-                    //if (val == 1)
-                    //{
-                    //    transform.position = new Vector3(1 * gridManager.columnSpace, transform.position.y);
-                    //}
-                    //if (val == 2)
-                    //{
-                    //    transform.position = new Vector3(transform.position.x, transform.position.y + gridManager.rowSpace);
-                    //}
-                    //transform.position = new Vector3(pos.x - gridManager.columnSpace, pos.y , 0);
-
                     transform.position = RandReloc(newPos);
                 }
-
-
-
             }
-
-
         }
         #endregion
     }
