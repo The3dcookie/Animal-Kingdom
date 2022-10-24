@@ -186,6 +186,7 @@ namespace Assets.Scripts
                     transform.position = RandReloc(newPos);
                 }
             }
+
         }
         #endregion
     }
