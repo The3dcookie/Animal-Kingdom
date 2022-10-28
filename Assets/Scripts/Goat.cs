@@ -13,26 +13,28 @@ namespace Assets.Scripts
     public class Goat : MonoBehaviour
     {
         #region Fields
-        public bool canEat = false;
-        public bool isEaten = false;
-        Rigidbody2D rb2D;
+
         GridManager gridManager;
 
-        public bool withinBoundary = false;
-        public bool outsideBoundary = false;
+        private float defaultLifeSpan = 10f;
+        private float currentLifeSpan = 10f;
 
-        
+
+
 
         #endregion
 
 
-        #region Constructor
+        #region Properties
 
-        public Goat(string name, bool canEat, bool isEaten)
+        public float LifeSpan
         {
-            this.name = name;
-            this.canEat = canEat;
-            this.isEaten = isEaten;
+            get { return this.currentLifeSpan; }
+        }
+
+        public float CurrentLifeSpan
+        {
+            set { this.currentLifeSpan = value; }
         }
 
         #endregion
@@ -42,13 +44,12 @@ namespace Assets.Scripts
 
         private void Awake()
         {
-            rb2D = GetComponent<Rigidbody2D>();
             gridManager = FindObjectOfType<GridManager>();
         }
 
         private void Start()
         {
-
+            
         }
 
         private Vector3 RandReloc(Vector3 dir)
@@ -165,6 +166,8 @@ namespace Assets.Scripts
 
         }
 
+
+
         private void Update()
         {
             Vector3 pos;
@@ -186,8 +189,45 @@ namespace Assets.Scripts
                     transform.position = RandReloc(newPos);
                 }
             }
-
+            LifeTime();
+            //Debug.Log(currentLifeSpan);
         }
         #endregion
+
+
+        public void LifeTime()
+        {
+                currentLifeSpan -= Time.deltaTime;
+
+            for (int i = 0; i < gridManager.Trees.Count; i++)
+            {
+                if (gameObject.transform.position == gridManager.Trees[i].transform.position)
+                {
+                    //Debug.Log("goat healed");
+                    currentLifeSpan = defaultLifeSpan;
+                }
+                else if (gameObject.transform.position != gridManager.Trees[i].transform.position)
+                {
+                    //Debug.Log("goat Life Decr");
+                    if (LifeSpan <= 0)
+                    {
+                        Destroy(gameObject);
+                        gridManager.MaleGoats.Remove(this.gameObject);
+                        gridManager.FemaleGoats.Remove(this.gameObject);
+                        Debug.Log("Goat Died");
+                    }
+
+                }
+            }
+
+
+             if (LifeSpan <= 0)
+            {
+                Destroy(gameObject);
+                gridManager.MaleGoats.Remove(this.gameObject);
+                gridManager.FemaleGoats.Remove(this.gameObject);
+                Debug.Log("Goat Died");
+            }
+        }
     }
 }

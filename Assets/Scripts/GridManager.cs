@@ -27,19 +27,28 @@ public class GridManager : MonoBehaviour
     public float timeLeft = 2f;
     List<GameObject> Lions = new List<GameObject>();
     List<GameObject> BabyGoats = new List<GameObject>();
-    List<GameObject> MaleGoats = new List<GameObject>();
-    List<GameObject> FemaleGoats = new List<GameObject>();
+    public List<GameObject> MaleGoats = new List<GameObject>();
+   public List<GameObject> FemaleGoats = new List<GameObject>();
+   public List<GameObject> Trees = new List<GameObject>();
 
+
+    Goat goat;
 
     List<Vector3> RandomPositions = new List<Vector3>();
-    List<GameObject> Trees = new List<GameObject>();
 
     public bool isBorn = false;
     public Vector3 birthPoint;
 
+    private void Awake()
+    {
+        //goat = gameObject.GetComponent<Goat>();
+    }
+
     private void Start()
     {
         GenerateGrid();
+        goat = FindObjectOfType<Goat>();
+
         timerOn = true;
     }
     private void Update()
@@ -48,8 +57,11 @@ public class GridManager : MonoBehaviour
         Mating();
         ColCheck();
         RandPos();
-
+        //Replenish();
+        //HungerKills();
     }
+
+
 
     public bool TimerOn()
     {
@@ -90,7 +102,7 @@ public class GridManager : MonoBehaviour
 
 
         //Instantiate FeMale Goats
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 0; i++)
         {
             //Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity);
 
@@ -102,11 +114,16 @@ public class GridManager : MonoBehaviour
         }
         //Instantiate(kingdom[1], new Vector3(columnSpace * 6, rowSpace * 5), Quaternion.identity);
 
+        //MaleGoats.Add(Instantiate(kingdom[0], RandPos(), Quaternion.identity));
+        //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
+        //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
 
         //Instantiate Male Goats
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < 10; i++)
         {
-            //Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity);
+            //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
+            //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
+
 
             MaleGoats.Add(Instantiate(kingdom[0], RandPos(), Quaternion.identity));
             RandomPositions.Remove(MaleGoats[i].transform.position);
@@ -116,13 +133,9 @@ public class GridManager : MonoBehaviour
         }
         //I
 
-
         //Instantiate Lions
         for (int i = 0; i < 10; i++)
         {
-
-
-
                 //Vector3 lionPos = new Vector3(columnSpace * Random.Range(0, row), rowSpace * Random.Range(0, column));
 
                 //    if (lionPos == IsVacant())
@@ -143,27 +156,34 @@ public class GridManager : MonoBehaviour
             //Instantiate(kingdom[1], new Vector3(columnSpace * Random.Range(0, row), rowSpace * Random.Range(0, column)), Quaternion.identity);
         }
 
-
         //Instantiate Trees
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 60; i++)
         {
-            //Instantiate(kingdom[1], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity);
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 2, rowSpace * 4), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 4, rowSpace * 3), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 3, rowSpace * 3), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 2, rowSpace * 3), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 4, rowSpace * 5), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 3, rowSpace * 5), Quaternion.identity));
+            //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 2, rowSpace * 5), Quaternion.identity));
+
+
+
             Trees.Add(Instantiate(kingdom[2], RandPos(), Quaternion.identity));
             RandomPositions.Remove(Trees[i].transform.position);
+
+
             //Lions.Add(Instantiate(kingdom[1], new Vector3(columnSpace * 4, rowSpace * 5), Quaternion.identity));
             //Lions.Add(Instantiate(kingdom[1], new Vector3(columnSpace * 4, rowSpace * 6), Quaternion.identity));
             //Instantiate(kingdom[1], new Vector3(columnSpace * Random.Range(0, row), rowSpace * Random.Range(0, column)), Quaternion.identity);
         }
         cam.transform.position = new Vector3((float)row / 2 + xAdjust, (float)column / 2 + yAdjust, -10);
-
-        
-
     }
 
     public void ColCheck()
     {
-        //try
-        //{
             // Collision Check for Lion eats Male Goat  
             for (int i = 0; i < Lions.Count; i++)
             {
@@ -172,20 +192,17 @@ public class GridManager : MonoBehaviour
                 for (int j = 0; j < MaleGoats.Count; j++)
                 {
                     if (Lions[i].transform.position == MaleGoats[j].transform.position)
-                    {
-                        //Debug.Log("Male Goat Killed");
-                        Destroy(MaleGoats[j]);
-                        MaleGoats.Remove(MaleGoats[j]);
-                    }
-
+                {
+                    Destroy(MaleGoats[j]);
+                    MaleGoats.Remove(MaleGoats[j]);
+                    Debug.Log("Male Goat Killed");
                 }
-                //}
+
+            }
             }
             // Collision Check for Lion eats FeMale Goat  
             for (int i = 0; i < Lions.Count; i++)
             {
-                //foreach (GameObject Lion in Lions)
-                //{
                 for (int j = 0; j < FemaleGoats.Count; j++)
                 {
                     if (Lions[i].transform.position == FemaleGoats[j].transform.position)
@@ -196,20 +213,7 @@ public class GridManager : MonoBehaviour
                     }
 
                 }
-                //}
             }
-        //}
-        //catch (Exception)
-        //{
-        //    Debug.Log("Goats Finished");
-        //}
-
-
-
-
-
-
-            
 
 
         //// Collision Check for Goat eats Trees
@@ -237,12 +241,6 @@ public class GridManager : MonoBehaviour
                 if (FemaleGoats[j].transform.position == MaleGoats[i].transform.position)
 
                 {
-                    //Debug.Log("Goats Mating");
-                    //isBorn = true;
-                    //birthPoint = MaleGoats[i].transform.position;
-
-                    Debug.Log("Goat Born");
-
                     int rand = Random.Range(1, 3);
                     if (MaleGoats.Count <= 10 && rand == 1)
                     {
@@ -264,8 +262,36 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+    }
 
 
+    private void Replenish()
+    {
+        // Collision Check for Goat eats Tree 
+        for (int i = 0; i < MaleGoats.Count; i++)
+        {
+            for (int j = 0; j < Trees.Count; j++)
+            {
+                if (MaleGoats[i].transform.position == Trees[j].transform.position)
+                {
+                    //Debug.Log("Healed");
+                    //goat.currentLifeSpan = goat.defaultLifeSpan;
+                }
+            }
+        }
+    }
+
+    private void HungerKills()
+    {
+        // Collision Check for Goat eats Tree 
+        for (int i = 0; i < MaleGoats.Count; i++)
+        {
+            //if (!goat.IsALive())
+            //{
+            //    Destroy(MaleGoats[i]);
+            //    MaleGoats.Remove(MaleGoats[i]);
+            //}
+        }
     }
 
 
@@ -275,8 +301,4 @@ public class GridManager : MonoBehaviour
         Vector3 pos = RandomPositions[rand];
         return pos;
     }
-
-
-
-
 }

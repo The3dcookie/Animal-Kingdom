@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2742314323007181587}
   - component: {fileID: 2020768345285437945}
   - component: {fileID: -4105143343706463285}
-  - component: {fileID: 6456374588706955094}
   - component: {fileID: 256454626723825003}
   m_Layer: 0
   m_Name: GOAT
@@ -99,22 +98,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7c681a14f8658849b4c13de7335ce20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  speed: 0
-  canEat: 0
-  isEaten: 0
---- !u!114 &6456374588706955094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629429146930249340}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d498a4cb77329424e9740f3346d47b76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  withinBoundary: 0
+  outsideBoundary: 0
+  defaultLifeSpan: 3
+  currentLifeSpan: 3
 --- !u!50 &256454626723825003
 Rigidbody2D:
   serializedVersion: 4
