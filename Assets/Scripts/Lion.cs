@@ -12,17 +12,30 @@ namespace Assets.Scripts
     {
         #region Fields
 
-        Rigidbody2D rb2D;
         GridManager gridManager;
+        private float defaultLifeSpan = 40f;
+        private float currentLifeSpan = 40f;
 
         #endregion
 
+        #region Properties
+
+        public float LifeSpan
+        {
+            get { return this.currentLifeSpan; }
+        }
+
+        public float CurrentLifeSpan
+        {
+            set { this.currentLifeSpan = value; }
+        }
+
+        #endregion
 
         #region Unity Methods
 
         private void Awake()
         {
-            rb2D = GetComponent<Rigidbody2D>();
             gridManager = FindObjectOfType<GridManager>();
         }
 
@@ -166,7 +179,43 @@ namespace Assets.Scripts
                     transform.position = RandReloc(newPos);
                 }
             }
+            LifeTime();
         }
+
+
+        public void LifeTime()
+        {
+            currentLifeSpan -= Time.deltaTime;
+
+            for (int i = 0; i < gridManager.MaleGoats.Count; i++)
+            {
+                if (gameObject.transform.position == gridManager.MaleGoats[i].transform.position)
+                {
+                    Debug.Log("Lion healed");
+                    currentLifeSpan = defaultLifeSpan;
+                }
+                else if (gameObject.transform.position != gridManager.MaleGoats[i].transform.position)
+                {
+                    //Debug.Log("goat Life Decr");
+                    if (LifeSpan <= 0)
+                    {
+                        Debug.Log("Lion Dies");
+                        Destroy(gameObject);
+                        gridManager.Lions.Remove(gameObject);
+                    }
+
+                }
+            }
+
+            if (LifeSpan <= 0)
+            {
+                Debug.Log("Lion Dies");
+                Destroy(gameObject);
+                gridManager.Lions.Remove(gameObject);
+            }
+
+        }
+
         #endregion
     }
 

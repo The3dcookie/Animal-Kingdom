@@ -16,8 +16,8 @@ namespace Assets.Scripts
 
         GridManager gridManager;
 
-        private float defaultLifeSpan = 10f;
-        private float currentLifeSpan = 10f;
+        private float defaultLifeSpan = 20f;
+        private float currentLifeSpan = 20f;
 
 
 
@@ -192,7 +192,6 @@ namespace Assets.Scripts
             LifeTime();
             //Debug.Log(currentLifeSpan);
         }
-        #endregion
 
 
         public void LifeTime()
@@ -214,7 +213,6 @@ namespace Assets.Scripts
                         Destroy(gameObject);
                         gridManager.MaleGoats.Remove(this.gameObject);
                         gridManager.FemaleGoats.Remove(this.gameObject);
-                        Debug.Log("Goat Died");
                     }
 
                 }
@@ -229,5 +227,10 @@ namespace Assets.Scripts
                 Debug.Log("Goat Died");
             }
         }
+
+
+
     }
+    #endregion
+
 }

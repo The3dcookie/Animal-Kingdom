@@ -25,16 +25,26 @@ public class GridManager : MonoBehaviour
 
     public bool timerOn = false;
     public float timeLeft = 2f;
-    List<GameObject> Lions = new List<GameObject>();
+    private float treeRelocTime = 4f;
+    private float defTreeRelocTime = 4f;
+
+
+    public List<GameObject> Lions = new List<GameObject>();
     List<GameObject> BabyGoats = new List<GameObject>();
     public List<GameObject> MaleGoats = new List<GameObject>();
-   public List<GameObject> FemaleGoats = new List<GameObject>();
-   public List<GameObject> Trees = new List<GameObject>();
+   
+    public List<GameObject> FemaleGoats = new List<GameObject>();
+   
+    public List<GameObject> Trees = new List<GameObject>();
 
 
     Goat goat;
 
     List<Vector3> RandomPositions = new List<Vector3>();
+    List<Vector3> NewTreesPos = new List<Vector3>();
+    List<Vector3> CurrentTreesPos = new List<Vector3>();
+
+
 
     public bool isBorn = false;
     public Vector3 birthPoint;
@@ -57,8 +67,10 @@ public class GridManager : MonoBehaviour
         Mating();
         ColCheck();
         RandPos();
+        TreeReloc();
         //Replenish();
         //HungerKills();
+        Debug.Log(treeRelocTime);
     }
 
 
@@ -92,6 +104,7 @@ public class GridManager : MonoBehaviour
                 //Instantiate(kingdom[Random.Range(0, 4)], new Vector3(columnSpace * Random.Range(0, row), rowSpace * Random.Range(0, column)), Quaternion.identity);
        
                 RandomPositions.Add(new Vector3(columnSpace * i, rowSpace * j));
+                NewTreesPos.Add(new Vector3(columnSpace * i, rowSpace * j));
 
 
 
@@ -116,10 +129,10 @@ public class GridManager : MonoBehaviour
 
         //MaleGoats.Add(Instantiate(kingdom[0], RandPos(), Quaternion.identity));
         //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
-        //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
+        //FemaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
 
         //Instantiate Male Goats
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 0; i++)
         {
             //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
             //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
@@ -134,7 +147,7 @@ public class GridManager : MonoBehaviour
         //I
 
         //Instantiate Lions
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 0; i++)
         {
                 //Vector3 lionPos = new Vector3(columnSpace * Random.Range(0, row), rowSpace * Random.Range(0, column));
 
@@ -157,7 +170,7 @@ public class GridManager : MonoBehaviour
         }
 
         //Instantiate Trees
-        for (int i = 0; i < 60; i++)
+        for (int i = 0; i < 10; i++)
         {
             //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
             //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
@@ -233,6 +246,8 @@ public class GridManager : MonoBehaviour
 
     public void Mating()
     {
+        int count = 0;
+
         //Collision Check for Goat Mating
         for (int i = 0; i < MaleGoats.Count; i++)
         {
@@ -241,19 +256,35 @@ public class GridManager : MonoBehaviour
                 if (FemaleGoats[j].transform.position == MaleGoats[i].transform.position)
 
                 {
-                    int rand = Random.Range(1, 3);
-                    if (MaleGoats.Count <= 10 && rand == 1)
-                    {
-                        Debug.Log("Male Goats Born");
 
-                        MaleGoats.Add(Instantiate(kingdom[0], MaleGoats[i].transform.position, Quaternion.identity));
-                    }
-                    
-                    else if(FemaleGoats.Count <= 10 && rand == 2)
-                    {
-                        Debug.Log("FeMale Goats Born");
+                    count++;
+                    Vector3 birthPos;
+                    birthPos = MaleGoats[i].transform.position;
 
-                        FemaleGoats.Add(Instantiate(kingdom[0], MaleGoats[i].transform.position, Quaternion.identity));
+
+                    FemaleGoats[j].transform.position = new Vector3(FemaleGoats[j].transform.position.x + 1.2f, FemaleGoats[j].transform.position.y);
+                    MaleGoats[i].transform.position = new Vector3(MaleGoats[i].transform.position.x, MaleGoats[i].transform.position.y + 1.2f);
+
+
+
+                    if (count <= 1)
+                    {
+                        int rand = Random.Range(1, 3);
+                        if (rand == 1)
+                        {
+                            Debug.Log("Male Goats Born");
+
+                            MaleGoats.Add(Instantiate(kingdom[0], birthPoint, Quaternion.identity));
+                            count = 0;
+                        }
+
+                        else if (rand == 2)
+                        {
+                            Debug.Log("FeMale Goats Born");
+
+                            FemaleGoats.Add(Instantiate(kingdom[0], birthPos, Quaternion.identity));
+                            count = 0;
+                        }
                     }
                 }
                 else
@@ -301,4 +332,45 @@ public class GridManager : MonoBehaviour
         Vector3 pos = RandomPositions[rand];
         return pos;
     }
+
+    private void TreeReloc()
+    {
+        foreach (GameObject tree in Trees)
+        {
+            CurrentTreesPos.Add(tree.transform.position);
+
+        }
+
+
+        if (treeRelocTime > 0)
+        {
+            treeRelocTime -= Time.deltaTime;
+        }
+        else if (treeRelocTime <= 0)
+        {
+
+
+            for (int i = 0; i < Trees.Count; i++)
+            {
+                Vector3 cur = NewTreesPos[Random.Range(0, NewTreesPos.Count)];
+
+                for (int j = 0; j < CurrentTreesPos.Count; j++)
+                {
+                    if (cur != CurrentTreesPos[j])
+                    {
+                        Trees[i].transform.position = cur;
+                        CurrentTreesPos.Add(cur);
+                    }
+                }
+
+            }
+
+            treeRelocTime = defTreeRelocTime;
+        }
+
+        CurrentTreesPos.Clear();
+
+    }
+
+
 }
