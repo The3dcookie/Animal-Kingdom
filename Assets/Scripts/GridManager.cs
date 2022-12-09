@@ -70,7 +70,7 @@ public class GridManager : MonoBehaviour
         TreeReloc();
         //Replenish();
         //HungerKills();
-        Debug.Log(treeRelocTime);
+        //Debug.Log(treeRelocTime);
     }
 
 
@@ -115,7 +115,7 @@ public class GridManager : MonoBehaviour
 
 
         //Instantiate FeMale Goats
-        for (int i = 0; i < 0; i++)
+        for (int i = 0; i < 10; i++)
         {
             //Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity);
 
@@ -132,7 +132,7 @@ public class GridManager : MonoBehaviour
         //FemaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
 
         //Instantiate Male Goats
-        for (int i = 0; i < 0; i++)
+        for (int i = 0; i < 10; i++)
         {
             //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
             //MaleGoats.Add(Instantiate(kingdom[0], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
@@ -147,7 +147,7 @@ public class GridManager : MonoBehaviour
         //I
 
         //Instantiate Lions
-        for (int i = 0; i < 0; i++)
+        for (int i = 0; i < 10; i++)
         {
                 //Vector3 lionPos = new Vector3(columnSpace * Random.Range(0, row), rowSpace * Random.Range(0, column));
 
@@ -170,7 +170,7 @@ public class GridManager : MonoBehaviour
         }
 
         //Instantiate Trees
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 4, rowSpace * 4), Quaternion.identity));
             //Trees.Add(Instantiate(kingdom[2], new Vector3(columnSpace * 3, rowSpace * 4), Quaternion.identity));
@@ -338,9 +338,7 @@ public class GridManager : MonoBehaviour
         foreach (GameObject tree in Trees)
         {
             CurrentTreesPos.Add(tree.transform.position);
-
         }
-
 
         if (treeRelocTime > 0)
         {
@@ -348,8 +346,6 @@ public class GridManager : MonoBehaviour
         }
         else if (treeRelocTime <= 0)
         {
-
-
             for (int i = 0; i < Trees.Count; i++)
             {
                 Vector3 cur = NewTreesPos[Random.Range(0, NewTreesPos.Count)];
@@ -362,15 +358,9 @@ public class GridManager : MonoBehaviour
                         CurrentTreesPos.Add(cur);
                     }
                 }
-
             }
-
             treeRelocTime = defTreeRelocTime;
         }
-
         CurrentTreesPos.Clear();
-
     }
-
-
 }
